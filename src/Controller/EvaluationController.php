@@ -120,9 +120,28 @@ class EvaluationController extends AbstractController
             return $this->redirectToRoute('app_evaluation_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        // Je récupère les notes des évaluations
+        $grades = [];
+        // On parcour toutes les notes de l'évaluation
+        foreach ($evaluation->getGrades() as $grade) {
+            $grades[] = $grade->getGrade();
+        }
+        // On fait la moyenne grâce à la méthode que j'ai créer en desosus
+        $average = $this->calculateAverage($grades);
+
         return $this->render('evaluation/setgrade.html.twig', [
             'evaluation' => $evaluation,
             'form' => $form,
+            'average' => $average,
         ]);
+    }
+
+    private function calculateAverage(array $grades): ?float
+    {
+        if (count($grades) === 0) {
+            return null;
+        }
+        $total = array_sum($grades);
+        return $total / count($grades);
     }
 }

@@ -7,6 +7,12 @@
 
     {{ form(form) }}
 
+    {% if average is not null %}
+        <p>Moyenne de l'évaluation : {{ average }}</p>
+    {% else %}
+        <p>Aucune évaluation disponible</p>
+    {% endif %}
+
     <a href="{{ path('app_professor_evaluations', {id: app.user.id}) }}">Retour à la liste des évaluations</a>
 
 {% endblock %}

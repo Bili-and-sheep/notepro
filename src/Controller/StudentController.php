@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Grade;
 use App\Entity\PreviousPasswords;
 use App\Entity\Student;
 use App\Form\StudentType;
@@ -106,10 +107,31 @@ class StudentController extends AbstractController
     public function notes(Student $student, EntityManagerInterface $entityManager): Response
     {
 
+        // Ajout d'un tableau qui vas contenir toutes les notes de l'eleve
+        $notes = [];
+        // On parcour toutes les notes de l'éléves et on l'ajoute au tableau
+        foreach ($student->getGrades() as $grade) {
+            $notes[] = $grade->getGrade();
+        }
+        // On fait la moyenne grâce à la méthode que j'ai créer en desosus
+        $average = $this->calculateAverage($notes);
+
+
         return $this->render('student/mygrades.html.twig', [
             'student' => $student,
-            'grades' => $student->getGrades()
+            'grades' => $student->getGrades(),
+            'average' => $average,
 
         ]);
+    }
+    private function calculateAverage(array $grades): ?float
+    {
+        //Si l'éléve n'as pas de note alors on fait rien
+        if (count($grades) === 0) {
+            return null;
+        }
+        //sinon on commence le calcul
+        $total = array_sum($grades);
+        return $total / count($grades);
     }
 }
