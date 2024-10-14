@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Student{% endblock %}
+
+{% block body %}
+    <h1>Professeur de {{ app.user.name }}</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Prof</th>
+            <th scope="col">Matière</th>
+            <th scope="col">Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for gr in student.grades %}
+            <tr>
+                <td>{{ gr.evaluation.label }}</td>
+                <td>{{ gr.grade }}</td>
+                <td>{{ gr.evaluation.bareme }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

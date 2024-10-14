@@ -27,7 +27,7 @@
                             <a class="nav-link active" aria-current="page" href="{{ path('app_student_notes', {id: app.user.id}) }}">Mes notes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Mes profs</a>
+                            <a class="nav-link active" aria-current="page" href="{{ path('app_student_prof', {id: app.user.id}) }}">Mes profs</a>
                         </li>
                         {% elseif is_granted('ROLE_PROFESSOR') %}
                         <li class="nav-item">

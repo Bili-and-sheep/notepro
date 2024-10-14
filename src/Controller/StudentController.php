@@ -95,7 +95,7 @@ class StudentController extends AbstractController
     #[Route('/{id}', name: 'app_student_delete', methods: ['POST'])]
     public function delete(Request $request, Student $student, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$student->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $student->getId(), $request->request->get('_token'))) {
             $entityManager->remove($student);
             $entityManager->flush();
         }
@@ -123,7 +123,10 @@ class StudentController extends AbstractController
             'average' => $average,
 
         ]);
+
+
     }
+
     private function calculateAverage(array $grades): ?float
     {
         //Si l'éléve n'as pas de note alors on fait rien
@@ -133,5 +136,42 @@ class StudentController extends AbstractController
         //sinon on commence le calcul
         $total = array_sum($grades);
         return $total / count($grades);
+    }
+
+
+    #[Route('/{id}/prof', name: 'app_student_prof', methods: ['GET', 'POST'])]
+    public function prof(Student $student, EntityManagerInterface $entityManager): Response
+    {
+
+        // Ajout d'un tableau qui vas contenir toutes les notes de l'eleve
+        $notes = [];
+        // On parcour toutes les notes de l'éléves et on l'ajoute au tableau
+        foreach ($student->getGrades() as $grade) {
+            $notes[] = $grade->getGrade();
+        }
+        // On fait la moyenne grâce à la méthode que j'ai créer en desosus
+        $average = $this->calculateAverage($notes);
+
+
+        return $this->render('student/myprof.html.twig', [
+            'student' => $student,
+            'grades' => $student->getGrades(),
+
+
+//        // Ajout d'un tableau qui vas contenir toutes les profs de l'eleve
+//        $teacher = [];
+//        // On parcour touts les profs de l'éléves et on l'ajoute au tableau
+//        foreach ($student->getProf() as $user) {
+//            $teacher[] = $prof->getGrade();
+//        }
+//
+//
+//        return $this->render('student/myprof.html.twig', [
+//            'student' => $student,
+//            'grades' => $student->getProf(),
+//
+
+        ]);
+
     }
 }

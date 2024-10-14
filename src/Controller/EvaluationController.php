@@ -129,7 +129,7 @@ class EvaluationController extends AbstractController
         // On fait la moyenne grâce à la méthode que j'ai créer en desosus
         $average = $this->calculateAverage($grades);
 
-        return $this->render('evaluation/setgrade.html.twig', [
+        return $this->render('evaluation/myprof.html.twig', [
             'evaluation' => $evaluation,
             'form' => $form,
             'average' => $average,
