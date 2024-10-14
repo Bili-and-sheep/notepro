@@ -144,17 +144,22 @@ class StudentController extends AbstractController
 
 
     #[Route('/{id}/prof', name: 'app_student_prof', methods: ['GET', 'POST'])]
-    public function prof(Student $student, UserRepository $userRepository): Response
+    public function prof(Student $student, EntityManagerInterface $entityManager): Response
     {
-        // Fetch professors associated with the specific student
-        $professors = $userRepository->createQueryBuilder('u')
-            ->innerJoin('u.students', 's')
-            ->where('s.id = :studentId')
-            ->andWhere('u.roles LIKE :role')
-            ->setParameter('studentId', $student->getId())
-            ->setParameter('role', '%ROLE_PROFESSOR%')
-            ->getQuery()
-            ->getResult();
+        // Fetch professors associated with the specific student's class level
+        $classLevel = $student->getClassLevel();
+        $professors = [];
+
+        if ($classLevel) {
+            $professors = $entityManager->createQueryBuilder()
+                ->select('p')
+                ->from(Professor::class, 'p')
+                ->innerJoin('p.classLevels', 'cl')
+                ->where('cl.id = :classLevelId')
+                ->setParameter('classLevelId', $classLevel->getId())
+                ->getQuery()
+                ->getResult();
+        }
 
         return $this->render('student/myprof.html.twig', [
             'student' => $student,
