@@ -14,13 +14,20 @@
         </tr>
         </thead>
         <tbody>
-        {% for gr in student.grades %}
-            <tr>
-                <td>{{ gr.evaluation.label }}</td>
-                <td>{{ gr.grade }}</td>
-                <td>{{ gr.evaluation.bareme }}</td>
-            </tr>
-        {% endfor %}
+{#        {% for gr in student.grades %}#}
+{#            <tr>#}
+{#                <td>{{ gr.evaluation.label }}</td>#}
+{#                <td>{{ gr.grade }}</td>#}
+{#                <td>{{ gr.evaluation.bareme }}</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#            {% for pr in prof where discr = professor %}#}
+{#                <tr>#}
+{#                    <td>{{ pr.prof.name }}</td>#}
+{#                    <td>{{ pr.prof.ma }}</td>#}
+{#                    <td>{{ gr.evaluation.bareme }}</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
         </tbody>
     </table>
 

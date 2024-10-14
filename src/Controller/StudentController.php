@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Grade;
 use App\Entity\PreviousPasswords;
 use App\Entity\Student;
+//use App\Entity\Professor;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -140,22 +141,20 @@ class StudentController extends AbstractController
 
 
     #[Route('/{id}/prof', name: 'app_student_prof', methods: ['GET', 'POST'])]
-    public function prof(Student $student, EntityManagerInterface $entityManager): Response
+//    public function prof(Professor $teacher, EntityManagerInterface $entityManager): Response
+    public function prof(EntityManagerInterface $entityManager): Response
     {
+        return $this->render('student/myprof.html.twig');
 
-        // Ajout d'un tableau qui vas contenir toutes les notes de l'eleve
-        $notes = [];
-        // On parcour toutes les notes de l'éléves et on l'ajoute au tableau
-        foreach ($student->getGrades() as $grade) {
-            $notes[] = $grade->getGrade();
-        }
-        // On fait la moyenne grâce à la méthode que j'ai créer en desosus
-        $average = $this->calculateAverage($notes);
-
-
-        return $this->render('student/myprof.html.twig', [
-            'student' => $student,
-            'grades' => $student->getGrades(),
+//        // Ajout d'un tableau qui vas contenir toutes les notes de l'eleve
+//        $teacher = [];
+//        // On parcour toutes les notes de l'éléves et on l'ajoute au tableau
+//        foreach ($teacher->getprof() as $prof) {
+//            $notes[] = $prof->getGrade();
+//        }
+//
+//        return $this->render('student/myprof.html.twig', [
+//            'prof' => $prof,
 
 
 //        // Ajout d'un tableau qui vas contenir toutes les profs de l'eleve
@@ -171,7 +170,7 @@ class StudentController extends AbstractController
 //            'grades' => $student->getProf(),
 //
 
-        ]);
+//        ]);
 
     }
 }
