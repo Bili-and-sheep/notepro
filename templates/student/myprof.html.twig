@@ -3,37 +3,22 @@
 {% block title %}Student{% endblock %}
 
 {% block body %}
-    <h1>Professeur de {{ app.user.name }}</h1>
+    <h1>Professeurs de {{ student.name }}</h1>
 
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">Prof</th>
-            <th scope="col">Matière</th>
+            <th scope="col">Nom</th>
             <th scope="col">Email</th>
         </tr>
         </thead>
         <tbody>
+        {% for professor in professors %}
             <tr>
-                <td scope="col">Etienne Buffet</td>
-                <td scope="col">SLAM Symfony</td>
-                <td><a href="mailto:etienne.buffet@lycee-faure.fr">etienne.buffet@lycee-faure.fr</a></td>
+                <td>{{ professor.name }}</td>
+                <td><a href="mailto:{{ professor.email }}">{{ professor.email }}</a></td>
             </tr>
-{#        {% for gr in student.grades %}#}
-{#            <tr>#}
-{#                <td>{{ gr.evaluation.label }}</td>#}
-{#                <td>{{ gr.grade }}</td>#}
-{#                <td>{{ gr.evaluation.bareme }}</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#            {% for pr in prof where discr = professor %}#}
-{#                <tr>#}
-{#                    <td>{{ pr.prof.name }}</td>#}
-{#                    <td>{{ pr.prof.ma }}</td>#}
-{#                    <td>{{ gr.evaluation.bareme }}</td>#}
-{#                </tr>#}
-{#            {% endfor %}#}
+        {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}

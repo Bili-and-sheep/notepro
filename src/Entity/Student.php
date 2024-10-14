@@ -74,4 +74,9 @@ class Student extends User
         }
         return null;
     }
+
+    public function getProf()
+    {
+
+    }
 }

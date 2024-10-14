@@ -10,6 +10,7 @@ use App\Entity\Student;
 use App\Entity\User;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -143,38 +144,24 @@ class StudentController extends AbstractController
 
 
     #[Route('/{id}/prof', name: 'app_student_prof', methods: ['GET', 'POST'])]
-//    public function prof(Student $teacher, EntityManagerInterface $entityManager): Response
-    public function prof(EntityManagerInterface $entityManager): Response
+    public function prof(Student $student, UserRepository $userRepository): Response
     {
+        // Fetch professors associated with the specific student
+        $professors = $userRepository->createQueryBuilder('u')
+            ->innerJoin('u.students', 's')
+            ->where('s.id = :studentId')
+            ->andWhere('u.roles LIKE :role')
+            ->setParameter('studentId', $student->getId())
+            ->setParameter('role', '%ROLE_PROFESSOR%')
+            ->getQuery()
+            ->getResult();
 
-        return $this->render('student/myprof.html.twig');
-
-
-//        // Ajout d'un tableau qui vas contenir toutes les notes de l'eleve
-//        $teacher = [];
-//        // On parcour toutes les notes de l'éléves et on l'ajoute au tableau
-//        foreach ($teacher->getprof() as $prof) {
-//            $notes[] = $prof->getGrade();
-//        }
-//
-//        return $this->render('student/myprof.html.twig', [
-//            'prof' => $prof,
-
-
-//        // Ajout d'un tableau qui vas contenir toutes les profs de l'eleve
-//        $teacher = [];
-//        // On parcour touts les profs de l'éléves et on l'ajoute au tableau
-//        foreach ($student->getProf() as $user) {
-//            $teacher[] = $prof->getGrade();
-//        }
-//
-//
-//        return $this->render('student/myprof.html.twig', [
-//            'student' => $student,
-//            'grades' => $student->getProf(),
-//
-
-//        ]);
-
+        return $this->render('student/myprof.html.twig', [
+            'student' => $student,
+            'professors' => $professors,
+        ]);
     }
+//        return $this->render('student/myprof.html.twig');
+
+
 }
