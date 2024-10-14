@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\ClassLevel;
 use App\Entity\Grade;
 use App\Entity\PreviousPasswords;
+use App\Entity\Professor;
 use App\Entity\Student;
-//use App\Entity\Professor;
+use App\Entity\User;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -141,10 +143,12 @@ class StudentController extends AbstractController
 
 
     #[Route('/{id}/prof', name: 'app_student_prof', methods: ['GET', 'POST'])]
-//    public function prof(Professor $teacher, EntityManagerInterface $entityManager): Response
+//    public function prof(Student $teacher, EntityManagerInterface $entityManager): Response
     public function prof(EntityManagerInterface $entityManager): Response
     {
+
         return $this->render('student/myprof.html.twig');
+
 
 //        // Ajout d'un tableau qui vas contenir toutes les notes de l'eleve
 //        $teacher = [];
